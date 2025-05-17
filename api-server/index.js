@@ -16,6 +16,14 @@ app.use((err,req,res,next)=>{
     res.status(500).json({message:"Internal Server error"});
 });
 
+const { connectNATS } = require("./nats/connect");
+const subscribeToNATS = require("./nats/subscribe");
+
+(async () => {
+  const nc = await connectNATS();
+  subscribeToNATS(nc);
+})();
+
 const routes = require("./routes");
 app.use(routes);
 
